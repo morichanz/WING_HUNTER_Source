@@ -1,0 +1,460 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\glad">
+      <UniqueIdentifier>{1aedaa05-a4c7-44df-ac78-acb825e6c74c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Animator">
+      <UniqueIdentifier>{c9b9ea5c-8163-4d25-8569-c49d90e37f8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Audio">
+      <UniqueIdentifier>{4da13ca0-82aa-4830-b34a-664181df4e3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Scene">
+      <UniqueIdentifier>{8e5223fd-6be5-40af-9226-f60505298442}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Component">
+      <UniqueIdentifier>{8c069833-15d7-48d1-9ac1-a449d5e92d3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Component\Enemy">
+      <UniqueIdentifier>{a7138f9d-d0fa-40c7-a967-c062add92285}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Component\Boss">
+      <UniqueIdentifier>{2dd8059c-9906-42bf-a35a-d28904066120}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GameObject">
+      <UniqueIdentifier>{a67c1b60-b0fb-4123-ab45-b0ec4343f1c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine">
+      <UniqueIdentifier>{ca61b31f-caec-461b-b714-8fdcfb3abbfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Debug">
+      <UniqueIdentifier>{2610c7b4-dab7-461b-8f4c-becce9e55a8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\VertexArray">
+      <UniqueIdentifier>{2a10d7ca-1f68-4ec8-9dbd-92d919f6a4f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Main">
+      <UniqueIdentifier>{6498f340-6884-4aab-8f73-3e417c1d840d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ProgramPipeline">
+      <UniqueIdentifier>{8c16908f-cc48-441b-8a8e-2b39bc677e04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Texture">
+      <UniqueIdentifier>{3519a377-e97d-432a-a42b-ecd5e2e910ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mesh">
+      <UniqueIdentifier>{8da9a83d-4a48-44c3-9a45-01d37785f5ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Camera">
+      <UniqueIdentifier>{147ef39d-4048-487f-a3a3-00da63016473}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Shader">
+      <UniqueIdentifier>{d9b417af-5df4-480d-ac9f-a7593332291b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Component\Sprite">
+      <UniqueIdentifier>{891a4f70-eeec-47b3-8c16-6074d65620b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Component\Score">
+      <UniqueIdentifier>{f1b47ccb-cd76-46e6-9fce-1b90b449d0f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\MeshRenderer">
+      <UniqueIdentifier>{b802e950-8866-45c5-8cb6-c1ac038b7148}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\VecMath">
+      <UniqueIdentifier>{464bb9b0-bc66-4ba3-a1da-7877d53b27e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\FramebufferObject">
+      <UniqueIdentifier>{a6be5496-0b15-4812-b511-6e7f214f4bf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Imgui">
+      <UniqueIdentifier>{cd7b25d9-a9ff-472f-97ef-f526f227a655}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Component\Rotation">
+      <UniqueIdentifier>{1fd7abe6-1a95-4627-9427-2cfc32c90702}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Easing">
+      <UniqueIdentifier>{9b81267f-e76d-4f5e-a417-fe63e1813a6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Component\Boss\BossShot">
+      <UniqueIdentifier>{b8c7f63e-a5ef-4ac4-861e-fe246c203220}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Component\Enemy\Bullet">
+      <UniqueIdentifier>{f6e2eb5e-9e38-4d5f-af71-c668354e04d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Component\Boss\IsState">
+      <UniqueIdentifier>{b182d28b-33bf-4ee2-aa47-cd6e184d2d5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Component\Boss\FactoryBase">
+      <UniqueIdentifier>{15130cbc-c1cd-461a-9483-cf1051cdef18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Component\Boss\BossState">
+      <UniqueIdentifier>{1358a65c-43e9-4eb3-a032-a1ff08a746e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Component\Boss\WeaponAction">
+      <UniqueIdentifier>{8ccc1e28-ea3d-4f63-ba0d-3aa05476e509}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Component\Boss\WeaponState">
+      <UniqueIdentifier>{3313f70c-787f-4491-a95d-9f5c2b12afad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Json">
+      <UniqueIdentifier>{1d0ad0b8-4637-48fe-b40e-763f77968049}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Res\Shader\gaussian_blur.frag">
+      <Filter>ソース ファイル\Shader</Filter>
+    </None>
+    <None Include="Res\Shader\shadow.frag">
+      <Filter>ソース ファイル\Shader</Filter>
+    </None>
+    <None Include="Res\Shader\shadow.vert">
+      <Filter>ソース ファイル\Shader</Filter>
+    </None>
+    <None Include="Res\Shader\standard_2D.frag">
+      <Filter>ソース ファイル\Shader</Filter>
+    </None>
+    <None Include="Res\Shader\standard_2D.vert">
+      <Filter>ソース ファイル\Shader</Filter>
+    </None>
+    <None Include="Res\Shader\standard_3D.frag">
+      <Filter>ソース ファイル\Shader</Filter>
+    </None>
+    <None Include="Res\Shader\standard_3D.vert">
+      <Filter>ソース ファイル\Shader</Filter>
+    </None>
+    <None Include="Res\Shader\simple_2D.vert">
+      <Filter>ソース ファイル\Shader</Filter>
+    </None>
+    <None Include="Res\Shader\high_pass_filter.frag">
+      <Filter>ソース ファイル\Shader</Filter>
+    </None>
+    <None Include="Res\Shader\down_sampling.frag">
+      <Filter>ソース ファイル\Shader</Filter>
+    </None>
+    <None Include="Res\Shader\up_sampling.frag">
+      <Filter>ソース ファイル\Shader</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Src\glad\src\glad.c">
+      <Filter>ソース ファイル\glad</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\main.cpp">
+      <Filter>ソース ファイル\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Audio\EasyAudio.cpp">
+      <Filter>ヘッダー ファイル\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Scene\ClearScene.cpp">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Scene\Fade.cpp">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Scene\GameOverScene.cpp">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Scene\LoadScene.cpp">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Scene\MainGameScene.cpp">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Scene\TitleScene.cpp">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Engine.cpp">
+      <Filter>ヘッダー ファイル\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\GameObject\GameObject.cpp">
+      <Filter>ヘッダー ファイル\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Debug\Debug.cpp">
+      <Filter>ソース ファイル\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Mesh\Mesh.cpp">
+      <Filter>ソース ファイル\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ProgramPipeline\ProgramPipeline.cpp">
+      <Filter>ソース ファイル\ProgramPipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Texture\Texture.cpp">
+      <Filter>ソース ファイル\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\VecMath\VecMath.cpp">
+      <Filter>ヘッダー ファイル\VecMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\FramebufferObject\FramebufferObject.cpp">
+      <Filter>ソース ファイル\FramebufferObject</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\ImGui\imgui.cpp">
+      <Filter>ヘッダー ファイル\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\ImGui\imgui_demo.cpp">
+      <Filter>ヘッダー ファイル\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\ImGui\imgui_draw.cpp">
+      <Filter>ヘッダー ファイル\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\ImGui\imgui_impl_glfw.cpp">
+      <Filter>ヘッダー ファイル\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\ImGui\imgui_impl_opengl3.cpp">
+      <Filter>ヘッダー ファイル\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\ImGui\imgui_tables.cpp">
+      <Filter>ヘッダー ファイル\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\ImGui\imgui_widgets.cpp">
+      <Filter>ヘッダー ファイル\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Component\Boss\FactoryBase.cpp">
+      <Filter>ヘッダー ファイル\Component\Boss\FactoryBase</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Component\Boss\BossMove\BossState.cpp">
+      <Filter>ヘッダー ファイル\Component\Boss\BossState</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Component\Boss\WeaponState\WeaponState.cpp">
+      <Filter>ヘッダー ファイル\Component\Boss\WeaponState</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Scene\ConfigScene.cpp">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Src\glad\include\glad\glad.h">
+      <Filter>ソース ファイル\glad</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\glad\include\KHR\khrplatform.h">
+      <Filter>ソース ファイル\glad</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\DamageSource.h">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Explosion.h">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Health.h">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Move.h">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\OutOfScreen.h">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Rect.h">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Text.h">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\TileMap.h">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Color.h">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\FireBullet.h">
+      <Filter>ヘッダー ファイル\Component\Enemy\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\ScaleManager.h">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\VertexArray.h">
+      <Filter>ソース ファイル\VertexArray</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Camera.h">
+      <Filter>ソース ファイル\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Audio\AudioEvent.h">
+      <Filter>ヘッダー ファイル\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Audio\AudioSetting.h">
+      <Filter>ヘッダー ファイル\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Audio\EasyAudio.h">
+      <Filter>ヘッダー ファイル\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Scene\ClearScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Scene\Fade.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Scene\GameOverScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Scene\LoadScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Scene\MainGameScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Scene\Scene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Scene\TitleScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Component.h">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Animator\Animator2D.h">
+      <Filter>ヘッダー ファイル\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Boss\BeamDamageSource.h">
+      <Filter>ヘッダー ファイル\Component\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Boss\BossAction.h">
+      <Filter>ヘッダー ファイル\Component\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Boss\BossBulletExplosion.h">
+      <Filter>ヘッダー ファイル\Component\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Boss\BossExplosion.h">
+      <Filter>ヘッダー ファイル\Component\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Boss\BossHealth.h">
+      <Filter>ヘッダー ファイル\Component\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Engine.h">
+      <Filter>ヘッダー ファイル\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\GameObject\GameObject.h">
+      <Filter>ヘッダー ファイル\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Sprite\Sprite.h">
+      <Filter>ヘッダー ファイル\Component\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Sprite\SpritePriority.h">
+      <Filter>ヘッダー ファイル\Component\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Score\Score.h">
+      <Filter>ヘッダー ファイル\Component\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Score\ScoreManager.h">
+      <Filter>ヘッダー ファイル\Component\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Bullet\CircleBullet.h">
+      <Filter>ヘッダー ファイル\Component\Enemy\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Enemy\LargeEnemyAction.h">
+      <Filter>ヘッダー ファイル\Component\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Enemy\MiddleEnemyAction.h">
+      <Filter>ヘッダー ファイル\Component\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Enemy\SmallEnemyAction.h">
+      <Filter>ヘッダー ファイル\Component\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\MeshRenderer.h">
+      <Filter>ヘッダー ファイル\MeshRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Debug\Debug.h">
+      <Filter>ソース ファイル\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Mesh\Mesh.h">
+      <Filter>ソース ファイル\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\ProgramPipeline\ProgramPipeline.h">
+      <Filter>ソース ファイル\ProgramPipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Texture\Texture.h">
+      <Filter>ソース ファイル\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\VecMath\VecMath.h">
+      <Filter>ヘッダー ファイル\VecMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\FramebufferObject\FramebufferObject.h">
+      <Filter>ソース ファイル\FramebufferObject</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\ImGui\imconfig.h">
+      <Filter>ヘッダー ファイル\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\ImGui\imgui.h">
+      <Filter>ヘッダー ファイル\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\ImGui\imgui_impl_glfw.h">
+      <Filter>ヘッダー ファイル\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\ImGui\imgui_impl_opengl3.h">
+      <Filter>ヘッダー ファイル\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\ImGui\imgui_impl_opengl3_loader.h">
+      <Filter>ヘッダー ファイル\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\ImGui\imgui_internal.h">
+      <Filter>ヘッダー ファイル\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\ImGui\imstb_rectpack.h">
+      <Filter>ヘッダー ファイル\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\ImGui\imstb_textedit.h">
+      <Filter>ヘッダー ファイル\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\ImGui\imstb_truetype.h">
+      <Filter>ヘッダー ファイル\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Rotation\Rotation.h">
+      <Filter>ヘッダー ファイル\Component\Rotation</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Easing.h">
+      <Filter>ヘッダー ファイル\Easing</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Boss\Beam.h">
+      <Filter>ヘッダー ファイル\Component\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Boss\BossShot\VortexShot.h">
+      <Filter>ヘッダー ファイル\Component\Boss\BossShot</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Boss\BossShot\WeaponFire.h">
+      <Filter>ヘッダー ファイル\Component\Boss\BossShot</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Boss\BossShot\BossCicleShot.h">
+      <Filter>ヘッダー ファイル\Component\Boss\BossShot</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Boss\IsState\IsState.h">
+      <Filter>ヘッダー ファイル\Component\Boss\IsState</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Boss\FactoryBase.h">
+      <Filter>ヘッダー ファイル\Component\Boss\FactoryBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Boss\BossMove\BossState.h">
+      <Filter>ヘッダー ファイル\Component\Boss\BossState</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Boss\WeaponAction\WeaponAction.h">
+      <Filter>ヘッダー ファイル\Component\Boss\WeaponAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Component\Boss\WeaponState\WeaponState.h">
+      <Filter>ヘッダー ファイル\Component\Boss\WeaponState</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\json\json.hpp">
+      <Filter>ヘッダー ファイル\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Scene\ConfigScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon.ico">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

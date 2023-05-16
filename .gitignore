@@ -1,0 +1,9 @@
+packages/*
+Res/Images/*
+Res/3Dobj/*
+Res/Audio/*
+Res/Font/*
+Res/LoadAnim/*
+Res/Rank/*
+Res/TitleAnim/*
+.vs/*
