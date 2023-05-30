@@ -249,8 +249,10 @@ void ConfigScene::KeySetting(Engine& engine, float deltaTime)
 		}
 	}
 
+	//何かキーを押したときにキーを設定する
 	if (key.keySet && !engine.GetKey(GLFW_KEY_ENTER) && GetAnyKeyDown(engine) && select != VOLUME)
 	{
+		//上下キーは選択で使うので設定できないようにする
 		if (!engine.GetKey(GLFW_KEY_UP) && !engine.GetKey(GLFW_KEY_DOWN))
 		{
 			Audio::PlayOneShot(SE::decision);
