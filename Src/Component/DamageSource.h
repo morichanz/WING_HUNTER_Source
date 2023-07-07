@@ -48,6 +48,4 @@ public:
 	int amount = 1;		//ダメージ量
 	bool isOnce = true;		//一度ダメージを与えたら死ぬか？
 };
-
-
 #endif // !COMPONENT_DAMAGESOURCE_H_INSTANCE

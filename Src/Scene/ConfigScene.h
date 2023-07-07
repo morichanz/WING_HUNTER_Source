@@ -8,26 +8,6 @@
 #include<string>
 #include<vector>
 
-struct KeyConnection
-{
-	int keylist[5];
-	bool key;		//一瞬でselectの値が変わらないように(１ずつ変更されるように)する
-	bool keySet;	//キーの変更を許可する
-	int keyup;		//keyの番号を使ってkey画像を描画
-	int keydown;	//keyの番号を使ってkey画像を描画
-	int keyright;	//keyの番号を使ってkey画像を描画
-	int keyleft;	//keyの番号を使ってkey画像を描画
-	int keyshot;	//keyの番号を使ってkey画像を描画
-	int keyMemory;	//既に存在するkeyを記憶しておく
-};
-
-struct VolumeConnection
-{
-	size_t SetTextLayer;
-	std::shared_ptr<Text> textnum;
-	GameObjectPtr uiNum;
-};
-
 /**
 * 設定シーン
 */
@@ -51,6 +31,7 @@ public:
 	void ResetAnimImage(Engine& engine, float deltaTime);
 	void VolumeNumImage(Engine& engine, const size_t textLayer);
 	void VolumeArrowImage(Engine& engine, float deltaTime);
+	bool Array_Is_Unique(const int* array, size_t size);
 
 	GameObjectPtr fade;
 	GameObjectPtr player;
@@ -74,7 +55,10 @@ public:
 	bool disFlg[10] = { false };
 	int select = 0;
 	float getVolume = 0.0f;
+	bool key = false;
+	int keylist[5];
 	bool isEnable = false;
+	bool keySet = false;
  	float timer = 0.0f;		//PressEnterをチカチカさせる残り時間
 	float maxTimer = 0.05f;	//PressEnterをチカチカさせる時間
 	float pressEnter_alphaSpeed = 2;	//pressEnterの表示速度
@@ -92,7 +76,19 @@ public:
 
 	bool resetAnimFlg = false;
 
-	KeyConnection key;
-	VolumeConnection volume;
+	//キー設定画像
+	int keyup = 0;
+	int keydown = 0;
+	int keyright = 0;
+	int keyleft = 0;
+	int keyshot = 0;
+	int keyMemory = 0;
+
+	//音量設定
+	size_t SetTextLayer;
+	std::shared_ptr<Text> textnum;
+	GameObjectPtr uiNum;
+	const char strupaa[3] = "up";
+
 };
 #endif // !CONFIGSCENE_H_INCLUDE

@@ -1,6 +1,7 @@
 /**
 * @file ConfigScene.cpp
 */
+#include<iostream>
 #include "ConfigScene.h"
 #include"MainGameScene.h"
 #include"../Component/Text.h"
@@ -20,9 +21,12 @@
 #include "../../../ImGui/ImGui/imgui_impl_glfw.h"
 #include "../Debug/Debug.h"
 
+#define SIZE_OF_ARRAY(array)    (sizeof(array)/sizeof(array[0]))
+
 const std::string pathToJSON("data/file.json");
 
-//音量の番号
+
+
 const char* number[]
 {
 	"0",
@@ -73,7 +77,7 @@ bool ConfigScene::Initialize(Engine& engine)
 	const size_t resetLayer = engine.AddUILayer("Res/Images/Config/Reset.tga", GL_LINEAR, 10);
 	const size_t upArrowLayer = engine.AddUILayer("Res/Images/Config/upArrow.tga", GL_LINEAR, 10);
 	const size_t downArrowLayer = engine.AddUILayer("Res/Images/Config/downArrow.tga", GL_LINEAR, 10);
-	volume.SetTextLayer = textLayer;
+	SetTextLayer = textLayer;
 
 	ConfigText(engine, textLayer);
 	VolumeNumImage(engine, textLayer);
@@ -124,16 +128,17 @@ bool ConfigScene::Initialize(Engine& engine)
 	selectTimer = defaultTimer;
 
 	//キーリストにそれぞれのキーを割り当てる
-	key.keylist[0] = engine.j["Key"]["up"];
-	key.keylist[1] = engine.j["Key"]["down"];
-	key.keylist[2] = engine.j["Key"]["right"];
-	key.keylist[3] = engine.j["Key"]["left"];
-	key.keylist[4] = engine.j["Key"]["shot"];
+	keylist[0] = engine.j["Key"]["up"];
+	keylist[1] = engine.j["Key"]["down"];
+	keylist[2] = engine.j["Key"]["right"];
+	keylist[3] = engine.j["Key"]["left"];
+	keylist[4] = engine.j["Key"]["shot"];
 
 	ConfigKeyImage(engine);
 
 	//保存されているvolumeを設定する
 	engine.selectVolume = engine.j["Audio"]["selectVolume"];
+	engine.volume = engine.j["Audio"]["standardVolume"];
 	Audio::SetMasterVolume(engine.volume * engine.selectVolume);
 
 	getVolume = Audio::GetMasterVolume();
@@ -164,8 +169,8 @@ int ConfigScene::GetKeyCoad(Engine& engine)
 			return itr;
 		}
 	}
-	return NULL;
 }
+
 //何かのキーを押したときにtrueを返す
 bool ConfigScene::GetAnyKeyDown(Engine& engine)
 {
@@ -175,142 +180,149 @@ bool ConfigScene::GetAnyKeyDown(Engine& engine)
 	}
 	return false;
 }
+
 //Imguiの表示
 void ConfigScene::Imgui(Engine& engine)
 {
-	ImGui::Begin("key");
-	if (ImGui::CollapsingHeader("key"))
+	if (engine.j["ImguiSetFlg"]["ConfigScene"])
 	{
-		ImGui::DragInt("key", &castKeyNum);
-		ImGui::DragFloat("selectTimer", &selectTimer);
-		ImGui::DragInt("select", &select);
-		ImGui::Checkbox("isEnable", &isEnable);
-		ImGui::Checkbox("keySet", &key.keySet);
+		ImGui::Begin("key");
+		if (ImGui::CollapsingHeader("key"))
+		{
+			ImGui::DragInt("key", &castKeyNum);
+			ImGui::DragFloat("selectTimer", &selectTimer);
+			ImGui::DragInt("select", &select);
+			ImGui::Checkbox("isEnable", &isEnable);
+			ImGui::Checkbox("keySet", &keySet);
+			ImGui::DragInt("keyMemory", &keyMemory);
+		}
+		if (ImGui::CollapsingHeader("keylist"))
+		{
+			ImGui::DragInt("keybindList0 up", &keylist[0]);
+			ImGui::DragInt("keybindList1 down", &keylist[1]);
+			ImGui::DragInt("keybindList2 right", &keylist[2]);
+			ImGui::DragInt("keybindList3 left", &keylist[3]);
+			ImGui::DragInt("keybindList4 shot", &keylist[4]);
+			ImGui::Text("text", static_cast<char>(castKeyNum));
+		}
+		if (ImGui::CollapsingHeader("SetVolume"))
+		{
+			ImGui::DragFloat("selectVolume", &engine.selectVolume);
+			ImGui::DragFloat("volume", &getVolume);
+		}
+		if (ImGui::CollapsingHeader("Select"))
+		{
+			ImGui::DragFloat("select", &selectBox->y);
+		}
+		ImGui::End();
 	}
-	if (ImGui::CollapsingHeader("keylist"))
-	{
-		ImGui::DragInt("keybindList0 up", &key.keylist[0]);
-		ImGui::DragInt("keybindList1 down", &key.keylist[1]);
-		ImGui::DragInt("keybindList2 right", &key.keylist[2]);
-		ImGui::DragInt("keybindList3 left", &key.keylist[3]);
-		ImGui::DragInt("keybindList4 shot", &key.keylist[4]);
-		ImGui::Text("text", static_cast<char>(castKeyNum));
-	}
-	if (ImGui::CollapsingHeader("SetVolume"))
-	{
-		ImGui::DragInt("selectVolume", &engine.selectVolume);
-		ImGui::DragFloat("selectVolume", &getVolume);
-	}
-	if (ImGui::CollapsingHeader("Select"))
-	{
-		ImGui::DragFloat("select", &selectBox->y);
-	}
-	ImGui::End();
 }
+
 //設定の選択
 void ConfigScene::Select(Engine& engine)
 {
 	const bool upKey = engine.GetKey(GLFW_KEY_UP);
-	const bool downKey = engine.GetKey(GLFW_KEY_DOWN);
-	if (!fadeFlg && !key.keySet)
+	const bool downKey = engine.GetKey(GLFW_KEY_DOWN);	
+
+	if (!fadeFlg && !keySet)
 	{
-		if (select < TITLEBACK && downKey && !key.key)
+		if (select < TITLEBACK && downKey && !key)
 		{
-			Audio::PlayOneShot(SE::selection);
 			select++;
 			selectBox->y -= selectBox_y;
-			key.key = true;
+			key = true;
 		}
-		else if (select > UP && upKey && !key.key)
+		else if (select > UP && upKey && !key)
 		{
-			Audio::PlayOneShot(SE::selection);
 			select--;
 			selectBox->y += selectBox_y;
-			key.key = true;
+			key = true;
 		}
-		if (!upKey && !downKey)key.key = false;
+
+		if (!upKey && !downKey)key = false;
 	}
 }
+
 //キーの変更を設定
 void ConfigScene::KeySetting(Engine& engine, float deltaTime)
 {
-	if (engine.GetKey(GLFW_KEY_ENTER) && selectTimer <= 0.0f && select < TITLEBACK && !key.keySet)
+	if (engine.GetKey(GLFW_KEY_ENTER) && selectTimer <= 0.0f && select < TITLEBACK && !keySet)
 	{
-		Audio::PlayOneShot(SE::decision);
 		selectTimer = defaultTimer;
 		resetAnimTimer = 1.0f;
 		if (select != RESET && select != TITLEBACK)
 		{
-			key.keyMemory = key.keylist[select];
+			keyMemory = keylist[select];
 			selectBox->x += selectBox_x;
 			if(select != VOLUME)enterNewKey->alpha = 1.0f;
 			enterNewKey->y = selectBox->y;
-			key.keySet = true;
+			keySet = true;
 		}
 	}
 
-	//何かキーを押したときにキーを設定する
-	if (key.keySet && !engine.GetKey(GLFW_KEY_ENTER) && GetAnyKeyDown(engine) && select != VOLUME)
+	if (keySet && !engine.GetKey(GLFW_KEY_ENTER) && GetAnyKeyDown(engine) && select != VOLUME)
 	{
-		//上下キーは選択で使うので設定できないようにする
 		if (!engine.GetKey(GLFW_KEY_UP) && !engine.GetKey(GLFW_KEY_DOWN))
 		{
-			Audio::PlayOneShot(SE::decision);
 			if(GetKeyCoad(engine) < 100)
 			{
 				//キー設定したときに同じキーが他で設定されていたら
 				//キーを入れ替える
 				for (int i = 0; i < 5; i++)
 				{
-					if (GetKeyCoad(engine) == key.keylist[i] && GetKeyCoad(engine) != 32)
+					if (keyMemory == 32 && GetKeyCoad(engine) == keylist[i])
 					{
-						key.keylist[i] = key.keyMemory;
-						engine.j["Key"][keyName[i]] = key.keylist[i];
+						return;
+					}
+					else if (keyMemory != 32 && GetKeyCoad(engine) == keylist[i])
+					{
+						keylist[i] = keyMemory;
+						engine.j["Key"][keyName[i]] = keylist[i];
 					}
 				}
 
-				if (GetKeyCoad(engine) != 32 && isalpha(GetKeyCoad(engine)))
+				if (isalpha(GetKeyCoad(engine)))
 				{
 					if (select == UP)
 					{
 						engine.j["Key"]["up"] = GetKeyCoad(engine);
-						key.keylist[select] = GetKeyCoad(engine);
+						keylist[select] = GetKeyCoad(engine);
 					}
 					else if (select == DOWN)
 					{
 						engine.j["Key"]["down"] = GetKeyCoad(engine);
-						key.keylist[select] = GetKeyCoad(engine);
+						keylist[select] = GetKeyCoad(engine);
 					}
 					else if (select == RIGHT)
 					{
 						engine.j["Key"]["right"] = GetKeyCoad(engine);
-						key.keylist[select] = GetKeyCoad(engine);
+						keylist[select] = GetKeyCoad(engine);
 					}
 					else if (select == LEFT)
 					{
 						engine.j["Key"]["left"] = GetKeyCoad(engine);
-						key.keylist[select] = GetKeyCoad(engine);
+						keylist[select] = GetKeyCoad(engine);
 					}
 				}
+
 				if(select == SHOT)
 				{
 					//スペースなら代入
-					if (GetKeyCoad(engine) == 32)
+					if (GetKeyCoad(engine) == GLFW_KEY_SPACE)
 					{
 						engine.j["Key"]["shot"] = GetKeyCoad(engine);
-						key.keylist[select] = GetKeyCoad(engine);
+						keylist[select] = GetKeyCoad(engine);
 					}
-					//スペース以外でかつ文字じゃない場合は代入
 					else if (isalpha(GetKeyCoad(engine)))
 					{
 						engine.j["Key"]["shot"] = GetKeyCoad(engine);
-						key.keylist[select] = GetKeyCoad(engine);
+						keylist[select] = GetKeyCoad(engine);
 					}
 				}
 				ConfigKeyImage(engine);
 				selectBox->x -= selectBox_x;
 				enterNewKey->alpha = 0.0f;
-				key.keySet = false;
+				keySet = false;
 			}
 		}
 	}
@@ -318,45 +330,46 @@ void ConfigScene::KeySetting(Engine& engine, float deltaTime)
 	{
 		resetAnimFlg = true;
 		reset->alpha = 1;
-		engine.j["Key"]["up"] = engine.j["KeyList"]["GLFW_KEY_ALPHABET_W"];
-		engine.j["Key"]["down"] = engine.j["KeyList"]["GLFW_KEY_ALPHABET_S"];
-		engine.j["Key"]["right"] = engine.j["KeyList"]["GLFW_KEY_ALPHABET_D"];
-		engine.j["Key"]["left"] = engine.j["KeyList"]["GLFW_KEY_ALPHABET_A"];
-		engine.j["Key"]["shot"] = engine.j["KeyList"]["GLFW_KEY_SPACE"];
+		engine.j["Key"]["up"] = GLFW_KEY_W;
+		engine.j["Key"]["down"] = GLFW_KEY_S;
+		engine.j["Key"]["right"] = GLFW_KEY_D;
+		engine.j["Key"]["left"] = GLFW_KEY_A;
+		engine.j["Key"]["shot"] = GLFW_KEY_SPACE;
 
-		key.keylist[0] = engine.j["Key"]["up"];
-		key.keylist[1] = engine.j["Key"]["down"];
-		key.keylist[2] = engine.j["Key"]["right"];
-		key.keylist[3] = engine.j["Key"]["left"];
-		key.keylist[4] = engine.j["Key"]["shot"];
+		keylist[0] = engine.j["Key"]["up"];
+		keylist[1] = engine.j["Key"]["down"];
+		keylist[2] = engine.j["Key"]["right"];
+		keylist[3] = engine.j["Key"]["left"];
+		keylist[4] = engine.j["Key"]["shot"];
 		ConfigKeyImage_Reset(engine);
 	}
 }
+
 //音量設定
 void ConfigScene::VolumeSetting(Engine& engine, float deltaTime)
 {
 	//十字キーでvolumeを設定
-	if (select == VOLUME && key.keySet)
+	if (select == VOLUME && keySet)
 	{
 		const bool upKey = engine.GetKey(GLFW_KEY_UP);
 		const bool downKey = engine.GetKey(GLFW_KEY_DOWN);
-		if (engine.selectVolume < 10 && downKey && !key.key)
+		if (engine.selectVolume < 10 && downKey && !key)
 		{
 			upArrow->alpha = 0.0f;
 			downArrow->alpha = 1.0f;
 			engine.selectVolume++;
-			VolumeNumImage(engine, volume.SetTextLayer);
-			key.key = true;
+			VolumeNumImage(engine, SetTextLayer);
+			key = true;
 		}
-		else if (engine.selectVolume > 0 && upKey && !key.key)
+		else if (engine.selectVolume > 0 && upKey && !key)
 		{
 			downArrow->alpha = 0.0f;
 			upArrow->alpha = 1.0f;
 			engine.selectVolume--;
-			VolumeNumImage(engine, volume.SetTextLayer);
-			key.key = true;
+			VolumeNumImage(engine, SetTextLayer);
+			key = true;
 		}
-		if (!upKey && !downKey)key.key = false;
+		if (!upKey && !downKey)key = false;
 		
 		Audio::SetMasterVolume(engine.volume * engine.selectVolume);
 	}
@@ -367,14 +380,16 @@ void ConfigScene::VolumeSetting(Engine& engine, float deltaTime)
 		engine.j["Audio"]["selectVolume"] = engine.selectVolume;
 		getVolume = Audio::GetMasterVolume();
 		selectTimer = defaultTimer;
+		//「タイトルに戻る」でなければセレクトボックスを右に移動させる
 		if (select != TITLEBACK)
 		{
 			selectBox->x -= selectBox_x;
 		}
 		enterNewKey->alpha = 0.0f;
-		key.keySet = false;
+		keySet = false;
 	}
 }
+
 //タイトルに戻る
 void ConfigScene::BackToTitle(Engine& engine, float deltaTime)
 {
@@ -382,6 +397,7 @@ void ConfigScene::BackToTitle(Engine& engine, float deltaTime)
 	if (select == TITLEBACK)
 	{
 		leftArrow->alpha = 1.0f;
+
 		//矢印を移動させる
 		if (leftArrow->x < 895.0f)backToTitleAnim = true;
 		else if (leftArrow->x > 905.0f) backToTitleAnim = false;
@@ -394,8 +410,7 @@ void ConfigScene::BackToTitle(Engine& engine, float deltaTime)
 	if (engine.GetKey(GLFW_KEY_ENTER) && select == TITLEBACK)
 	{
 		const int target = 0;
-		bool exists = std::find(std::begin(key.keylist), std::end(key.keylist), target) != std::end(key.keylist);
-		if (!exists)
+		if (Array_Is_Unique(keylist, SIZE_OF_ARRAY(keylist)))
 		{
 			//設定を保存してタイトルに戻る
 			//jsonファイル書き出し
@@ -409,6 +424,7 @@ void ConfigScene::BackToTitle(Engine& engine, float deltaTime)
 		}
 	}
 }
+
 //設定テキスト
 void ConfigScene::ConfigText(Engine& engine, const size_t textLayer)
 {
@@ -447,9 +463,9 @@ void ConfigScene::ConfigText(Engine& engine, const size_t textLayer)
 	auto textshot = uishot->AddComponent<Text>();
 	textshot->SetText(strshot, 2.0f);
 
-	const char strreset[] = "reset";
+	const char strreset[] = "keyreset";
 	const float resetX = x - static_cast<float>(std::size(strreset) - 1.0f) * fontSizeX;
-	auto uireset = engine.CreateUI<GameObject>(textLayer, "reset", resetX, fontposY - (selectBox_y * 5));
+	auto uireset = engine.CreateUI<GameObject>(textLayer, "keyreset", resetX, fontposY - (selectBox_y * 5));
 	auto textreset = uireset->AddComponent<Text>();
 	textreset->SetText(strreset, 2.0f);
 
@@ -465,20 +481,21 @@ void ConfigScene::ConfigText(Engine& engine, const size_t textLayer)
 	auto texttitleBack = uititleBack->AddComponent<Text>();
 	texttitleBack->SetText(strtitleBack, 2.0f);
 }
+
 //キー設定の画像
 void ConfigScene::ConfigKeyImage(Engine& engine)
 {
-	key.keyup = engine.j["Key"]["up"];
-	key.keydown = engine.j["Key"]["down"];
-	key.keyright = engine.j["Key"]["right"];
-	key.keyleft = engine.j["Key"]["left"];
-	key.keyshot = engine.j["Key"]["shot"];
+	keyup = engine.j["Key"]["up"];
+	keydown = engine.j["Key"]["down"];
+	keyright = engine.j["Key"]["right"];
+	keyleft = engine.j["Key"]["left"];
+	keyshot = engine.j["Key"]["shot"];
 
-	const std::string strup = std::string("Res/Images/Operation/") + static_cast<char>(key.keyup) + ".tga";
-	const std::string strdown = std::string("Res/Images/Operation/") + static_cast<char>(key.keydown) + ".tga";
-	const std::string strright = std::string("Res/Images/Operation/") + static_cast<char>(key.keyright) + ".tga";
-	const std::string strleft = std::string("Res/Images/Operation/") + static_cast<char>(key.keyleft) + ".tga";
-	const std::string strshot = std::string("Res/Images/Operation/") + static_cast<char>(key.keyshot) + ".tga";
+	const std::string strup = std::string("Res/Images/Operation/") + static_cast<char>(keyup) + ".tga";
+	const std::string strdown = std::string("Res/Images/Operation/") + static_cast<char>(keydown) + ".tga";
+	const std::string strright = std::string("Res/Images/Operation/") + static_cast<char>(keyright) + ".tga";
+	const std::string strleft = std::string("Res/Images/Operation/") + static_cast<char>(keyleft) + ".tga";
+	const std::string strshot = std::string("Res/Images/Operation/") + static_cast<char>(keyshot) + ".tga";
 
 	//上
 	if (upImage != nullptr)
@@ -540,7 +557,7 @@ void ConfigScene::ConfigKeyImage(Engine& engine)
 	if (shotImage != nullptr)
 	{
 		shotImage->ClearSprite();
-		if (key.keyshot == 32)
+		if (keyshot == 32)
 		{
 			const size_t operation_Shot = engine.AddUILayer("Res/Images/Operation/Space.tga", GL_LINEAR, 10);
 			shotImage = engine.CreateUI<GameObject>(operation_Shot, "Operation", 900.0f, 550.0f - (selectBox_y * 4.0f));
@@ -552,11 +569,10 @@ void ConfigScene::ConfigKeyImage(Engine& engine)
 			shotImage = engine.CreateUI<GameObject>(operation_Shot, "Operation", 900.0f, 550.0f - (selectBox_y * 4.0f));
 			shotImage->AddSprite({ 0, 0, 1, 1 });
 		}
-
 	}
 	else
 	{
-		if (key.keyshot == 32)
+		if (keyshot == 32)
 		{
 			const size_t operation_Shot = engine.AddUILayer("Res/Images/Operation/Space.tga", GL_LINEAR, 10);
 			shotImage = engine.CreateUI<GameObject>(operation_Shot, "Operation", 900.0f, 550.0f - (selectBox_y * 4.0f));
@@ -570,12 +586,13 @@ void ConfigScene::ConfigKeyImage(Engine& engine)
 		}
 	}
 
-	if(key.keylist[0] == 0)upImage->ClearSprite();
-	if(key.keylist[1] == 0)downImage->ClearSprite();
-	if(key.keylist[2] == 0)rightImage->ClearSprite();
-	if(key.keylist[3] == 0)leftImage->ClearSprite();
-	if(key.keylist[4] == 0)shotImage->ClearSprite();
+	if(keylist[0] == 0)upImage->ClearSprite();
+	if(keylist[1] == 0)downImage->ClearSprite();
+	if(keylist[2] == 0)rightImage->ClearSprite();
+	if(keylist[3] == 0)leftImage->ClearSprite();
+	if(keylist[4] == 0)shotImage->ClearSprite();
 }
+
 //画像の初期化(W,A,S,D,Space)
 void ConfigScene::ConfigKeyImage_Reset(Engine& engine)
 {
@@ -604,6 +621,7 @@ void ConfigScene::ConfigKeyImage_Reset(Engine& engine)
 	shotImage = engine.CreateUI<GameObject>(operation_Shot, "Operation", 900.0f, 550.0f - (selectBox_y * 4.0f));
 	shotImage->AddSprite({ 0, 0, 1, 1 });
 }
+
 //リセットのアニメーション
 void ConfigScene::ResetAnimImage(Engine& engine, float deltaTime)
 {
@@ -613,11 +631,11 @@ void ConfigScene::ResetAnimImage(Engine& engine, float deltaTime)
 		else resetAnimFlg = false;
 	}
 }
+
 //volume画像
 void ConfigScene::VolumeNumImage(Engine& engine, const size_t textLayer)
 {
-	//volumeのUIが設定されていなかったら新しく設定する
-	if (volume.uiNum == nullptr)
+	if (uiNum == nullptr)
 	{
 		//設定項目を示すテキスト
 		const float fontSizeX = 16.0f;
@@ -625,15 +643,16 @@ void ConfigScene::VolumeNumImage(Engine& engine, const size_t textLayer)
 		const float x = 920.0f;
 		const char strnum[] = "nm";
 		const float numX = x - static_cast<float>(std::size(strnum) - 1.0f) * fontSizeX;
-		volume.uiNum = engine.CreateUI<GameObject>(textLayer, "number", numX, fontposY);
-		volume.textnum = volume.uiNum->AddComponent<Text>();
-		volume.textnum->SetText(number[engine.selectVolume],2.0f);
+		uiNum = engine.CreateUI<GameObject>(textLayer, "number", numX, fontposY);
+		textnum = uiNum->AddComponent<Text>();
+		textnum->SetText(number[static_cast<int>(engine.selectVolume)],2.0f);
 	}
 	else
 	{
-		volume.textnum->SetText(number[engine.selectVolume], 2.0f);
+		textnum->SetText(number[static_cast<int>(engine.selectVolume)], 2.0f);
 	}
 }
+
 //volumeの選択キー(上、下矢印)が押されたらimageを表示させる
 void ConfigScene::VolumeArrowImage(Engine& engine, float deltaTime)
 {
@@ -647,4 +666,20 @@ void ConfigScene::VolumeArrowImage(Engine& engine, float deltaTime)
 	{
 		downArrow->alpha -= deltaTime;
 	}
+}
+
+//配列から同じ値を探し出す
+bool ConfigScene::Array_Is_Unique(const int* array, size_t size)
+{
+	for (size_t i = 0; i < size - 1; ++i)
+	{
+		for (size_t j = i + 1; j < size; ++j)
+		{
+			if (array[i] == array[j]) 
+			{
+				return false;
+			}
+		}
+	}
+	return true;
 }

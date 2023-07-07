@@ -22,6 +22,7 @@ public:
 	void Dis(GameObjectPtr& gameObject, float disx,int fontPosNum);
 	void BossRushSelect(Engine& engine);
 	void SetSelectAnim(GameObjectPtr gameObject, float deltaTime);
+	void Imgui(Engine& engine);
 	GameObjectPtr fade;
 	GameObjectPtr player;
 	GameObjectPtr pressEnter;

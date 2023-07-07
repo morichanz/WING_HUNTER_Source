@@ -76,7 +76,7 @@ bool TitleScene::Initialize(Engine& engine)
 	engine.volume = engine.j["Audio"]["standardVolume"];
 	engine.selectVolume = engine.j["Audio"]["selectVolume"];
 	Audio::SetMasterVolume(engine.volume * engine.selectVolume);
-	Audio::Play(AudioPlayer::bgm, BGM::title, 1.0f, true);
+	Audio::Play(AudioPlayer::bgm, BGM::title, Audio::GetMasterVolume(), true);
 
 	return true;	//初期化成功
 }
@@ -88,11 +88,12 @@ void TitleScene::Update(Engine& engine, float deltaTime)
 {
 	FadeOut(engine, deltaTime);
 	BossRushSelect(engine);
-
+	Imgui(engine);
+	
 	//Enterキーが押されたらゲーム開始
 	if (engine.GetKey(GLFW_KEY_ENTER) && uiW->x != uiPosX)
 	{
-		Audio::PlayOneShot(SE::decision);	
+		Audio::PlayOneShot(SE::decision, Audio::GetMasterVolume());
 		pressEnter->alpha = 1.0f;
 		bossRush->alpha = 1.0f;
 		config->alpha = 1.0f;
@@ -132,14 +133,6 @@ void TitleScene::BossRushSelect(Engine& engine)
 
 		if (!upKey && !downKey)key = false;
 	}
-
-	ImGui::Begin("StageSelect");
-	if (ImGui::CollapsingHeader("select"))
-	{
-		ImGui::DragInt("select", &select);
-	}
-	ImGui::End();
-
 }
 
 //タイトルロゴのアニメーション
@@ -213,7 +206,7 @@ void TitleScene::FadeOut(Engine& engine, float deltaTime)
 		fade->alpha += deltaTime / 2.0f;
 
 		//ゲーム開始時にボリュームを時間で下げる
-		if (engine.volume > 0.0f)
+		if (engine.volume > 0.0f && engine.selectVolume != 0)
 		{
 			engine.volume -= deltaTime * engine.volFadeSpeed;
 			Audio::SetMasterVolume(engine.volume);
@@ -237,8 +230,8 @@ void TitleScene::FadeOut(Engine& engine, float deltaTime)
 		//フェードアウトが終わったらシーンを変える
 		if (fade->alpha > 1)
 		{
-			if (engine.meshList.size() == NULL && select == 1||select == 0)engine.SetNextScene<LoadScene>();
-			else if(engine.meshList.size() != NULL && select == 1 || select == 0) engine.SetNextScene<MainGameScene>();
+			if (engine.meshList.size() == NULL && select == 1|| engine.meshList.size() == NULL && select == 0)engine.SetNextScene<LoadScene>();
+			else if(engine.meshList.size() != NULL && select == 1 || engine.meshList.size() != NULL && select == 0) engine.SetNextScene<MainGameScene>();
 			else if(select == 2)engine.SetNextScene<ConfigScene>();
 		}
 	}
@@ -333,5 +326,23 @@ void TitleScene::SetSelectAnim(GameObjectPtr gameObject, float deltaTime)
 			gameObject->alpha = 1;
 			timer = maxTimer;
 		}
+	}
+}
+
+void TitleScene::Imgui(Engine& engine)
+{
+	if (engine.j["ImguiSetFlg"]["TitleScene"])
+	{
+		ImGui::Begin("StageSelect");
+		if (ImGui::CollapsingHeader("select"))
+		{
+			ImGui::DragInt("select", &select);
+		}
+		if (ImGui::CollapsingHeader("volume"))
+		{
+			ImGui::DragFloat("volume", &engine.volume);
+			ImGui::DragFloat("selectVolume", &engine.selectVolume);
+		}
+		ImGui::End();
 	}
 }

@@ -67,6 +67,7 @@ bool ClearScene::Initialize(Engine& engine)
 	fade->alpha = 1.0f;
 
 	engine.volume = engine.j["Audio"]["standardVolume"];
+	engine.selectVolume = engine.j["Audio"]["selectVolume"];
 	Audio::SetMasterVolume(engine.volume * engine.selectVolume);
 	Audio::Play(AudioPlayer::bgm, BGM::gameClear, 1, true);
 
@@ -83,7 +84,7 @@ void ClearScene::Update(Engine& engine, float deltaTime)
 	//Enterキーが押されたらタイトルに戻る
 	if (engine.GetKey(GLFW_KEY_ENTER) && fade->alpha <= 0 && !fadeFlg)
 	{
-		Audio::PlayOneShot(SE::decision);
+		Audio::PlayOneShot(SE::decision, Audio::GetMasterVolume());
 		engine.ClearSpriteList(1);
 		pressEnter->alpha = 1.0f;
 		engine.stageCnt = engine.j["Stage"]["count"];

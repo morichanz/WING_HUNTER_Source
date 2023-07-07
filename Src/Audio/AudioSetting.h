@@ -42,7 +42,6 @@ namespace SE
 {
 	inline constexpr char playerShot[] = "Res/Audio/shoot.mp3";	//’e‚Ì”­ŽË‰¹
 	inline constexpr char decision[] = "Res/Audio/decision.mp3";	//Œˆ’è‰¹
-	inline constexpr char selection[] = "Res/Audio/selection.mp3";	//‘I‘ð‰¹
 	inline constexpr char enemyShot[] = "Res/Audio/enemyShot.mp3";	//”­ŽË‰¹
 	inline constexpr char bossShot[] = "Res/Audio/bossShot1.mp3";	//’…’e‰¹
 	inline constexpr char bossDamage[] = "Res/Audio/break.mp3";	//’…’e‰¹

@@ -82,7 +82,7 @@ void GameOverScene::Update(Engine& engine, float deltaTime)
 	//Enterキーが押されたらタイトルに戻る
 	if (engine.GetKey(GLFW_KEY_ENTER) && fade->alpha <= 0.0f)
 	{
-		Audio::PlayOneShot(SE::decision, 1.0f);
+		Audio::PlayOneShot(SE::decision, Audio::GetMasterVolume());
 		engine.ClearSpriteList(1);
 		pressEnter->alpha = 1.0f;
 		engine.stageCnt = 1.0f;

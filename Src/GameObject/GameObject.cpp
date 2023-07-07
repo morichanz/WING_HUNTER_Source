@@ -143,6 +143,5 @@ void GameObject::DrawStaticMesh(const ProgramPipeline & program) const
 			Mesh::Draw(*e->mesh, e->materials, program);
 			
 		}
-		
 	} // for
 }

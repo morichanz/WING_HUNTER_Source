@@ -1,6 +1,6 @@
 {
    "Audio": {
-      "selectVolume": 2,
+      "selectVolume": 1.0,
       "standardVolume": 0.05
    },
    "Boss": {
@@ -9,6 +9,12 @@
       "score": 1000,
       "speed": 100,
       "weaponHp": 250
+   },
+   "ImguiSetFlg": {
+      "ConfigScene": true,
+      "Engine": true,
+      "MainGameScene": true,
+      "TitleScene": true
    },
    "Key": {
       "down": 83,
@@ -155,6 +161,7 @@
       "speed": 100
    },
    "Player": {
+      "collision": true,
       "hp": 10,
       "invincible": true,
       "invincibleTime": 2,

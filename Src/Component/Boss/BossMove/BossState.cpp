@@ -335,12 +335,10 @@ void MaxMove::BossPosAI(int num)
 		status.bossPos.Destination_KeepY = status.position.middle[1];
 	}
 }
-
 #pragma endregion
 
 
 #pragma region HalfMove
-
 void HalfMove::Initialize()
 {
 	playerPtr = gameObject->engine->FindGameObjectWithTag("player");

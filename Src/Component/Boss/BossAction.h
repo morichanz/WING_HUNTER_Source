@@ -54,14 +54,6 @@ public:
 
 	virtual void Update(GameObject& gameObject, float deltaTime) override
 	{
-		ImGui::Begin("TimeDebug");
-		ImGui::Text("HelloWorld");
-		if (ImGui::CollapsingHeader("HP"))
-		{
-			//ImGui::DragFloat("HP", &weaponCenter->health);
-		}
-		ImGui::End();
-
 		base->StateExecute(deltaTime);
 		ColorChange(gameObject, deltaTime);
 	}
@@ -233,7 +225,7 @@ public:
 			else
 			{
 				enemyColor->SetMaterialColor(gameObject.meshRenderer, enemyColor->objectColor.baceColor);
-				Audio::PlayOneShot(SE::bossDamage, 2);
+				Audio::PlayOneShot(SE::bossDamage, Audio::GetMasterVolume());
 				damageColorFlg = false;
 			}
 		}

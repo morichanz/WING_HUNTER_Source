@@ -44,6 +44,8 @@ public:
 	 int keyNum = 68;
 	 bool pauseFlg = false;
 
+	 bool playerCollision = false;
+
 	 float restartTimer = 0.0f;	//再スタートまでの時間をはかるタイマー
 	 float shotTimer = 0.0f; //弾の発射間隔タイマー
 	 bool playerMoveFlg = false;

@@ -30,8 +30,6 @@ const std::string pathToJSON("data/file.json");
 
 using namespace VecMath;
 
-
-
 void GLAPIENTRY DebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity,
 	GLsizei length, const GLchar* message, const void* userParam)
 {
@@ -577,14 +575,46 @@ int Engine::MainLoop()
 		float deltaTime  = static_cast<float>(curTime - prevTime) * efect;
 		prevTime = curTime;
 
-
-		ImGui::Begin("TimeDebug");
-		if (ImGui::CollapsingHeader("Time"))
+		if (j["ImguiSetFlg"]["Engine"])
 		{
-			ImGui::DragFloat("deltaTime", &deltaTime);
+			ImGui::Begin("TimeDebug");
+			if (ImGui::CollapsingHeader("Time"))
+			{
+				ImGui::DragFloat("deltaTime", &deltaTime);
+			}
+			ImGui::End();
 		}
-			
-		ImGui::End();
+
+		if (GetKey(GLFW_KEY_G) && GetKey(GLFW_KEY_U) && GetKey(GLFW_KEY_I) && !guiFlg)
+		{
+			if (j["ImguiSetFlg"]["TitleScene"] == false)
+			{
+				j["ImguiSetFlg"]["TitleScene"] = true;
+				j["ImguiSetFlg"]["ConfigScene"] = true;
+				j["ImguiSetFlg"]["MainGameScene"] = true;
+				j["ImguiSetFlg"]["Engine"] = true;
+			}
+			else
+			{
+				j["ImguiSetFlg"]["TitleScene"] = false;
+				j["ImguiSetFlg"]["ConfigScene"] = false;
+				j["ImguiSetFlg"]["MainGameScene"] = false;
+				j["ImguiSetFlg"]["Engine"] = false;
+			}
+
+			std::ofstream ofs(pathToJSON.c_str());
+			if (ofs.good())
+			{
+				ofs << j.dump(3) << std::endl;
+				ofs.close();
+			}
+			guiFlg = true;
+		}
+		else if(!GetKey(GLFW_KEY_G) && !GetKey(GLFW_KEY_U) && !GetKey(GLFW_KEY_I))
+		{
+			if (guiFlg)guiFlg = false;
+		}
+
 
 		// ƒV[ƒ“‚ÌØ‚è‘Ö‚¦
 		if (nextScene) 

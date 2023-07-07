@@ -55,7 +55,7 @@ class Engine
 		bool fadeFlg = false;//フェードフラグ
 		int fadeNum = 0;	//1ならタイトル2ならゲームオーバーに移動する
 		float efect = 1.0f;
-		int selectVolume = 10;
+		float selectVolume = 10.0f;
 		float volume = 0.05f;
 		float volFadeSpeed = 0.03f;
 		Mesh::StaticMeshList meshList;
@@ -199,6 +199,8 @@ class Engine
 			const VecMath::vec3 & eye, const VecMath::vec3& target,
 			float range, float zNear, float zFar);
 		void DrawBloomEffect();
+
+		bool guiFlg = false;
 
 		//ウインドウ
 		GLFWwindow* window = nullptr;	//ウィンドウオブジェクト

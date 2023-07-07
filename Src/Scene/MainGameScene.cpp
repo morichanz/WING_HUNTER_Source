@@ -316,15 +316,17 @@ void MainGameScene::Update(Engine& engine, float deltaTime)
 */
 void MainGameScene::UpdatePlayer(Engine& engine, float deltaTime)
 {
-	if (engine.GetKey(GLFW_KEY_C))
+	if (engine.GetKey(GLFW_KEY_C) && engine.GetKey(GLFW_KEY_O) && engine.j["ImguiSetFlg"]["MainGameScene"])
 	{
-		player->RemoveCollision();
+		engine.j["Player"]["collision"] = playerCollision;
+
+		if(engine.j["Player"]["collision"])player->AddCollision({ -3,-4, 3, 4 });
+		else player->RemoveCollision();
 
 		//jsonファイル書き出し
 		std::ofstream ofs(pathToJSON.c_str());
 		if (ofs.good())
 		{
-			engine.j["Key"]["space"] = GLFW_KEY_C;
 			ofs << engine.j.dump(3) << std::endl;
 			ofs.close();
 		}
@@ -357,7 +359,7 @@ void MainGameScene::UpdatePlayer(Engine& engine, float deltaTime)
 		if (!player->collisionFlg)
 		{
 			playerMaterialColor->SetMaterialColor(playermesh, playerMaterialColor->objectColor.baceColor);
-			player->AddCollision({ -3,-4, 3, 4 });
+			if(engine.j["Player"]["collision"])player->AddCollision({ -3,-4, 3, 4 });
 			player->alpha = 1.0f;
 			player->collisionFlg = true;
 		}
@@ -375,10 +377,10 @@ void MainGameScene::UpdatePlayer(Engine& engine, float deltaTime)
 			if (fade->alpha < 1.0f)
 			{
 				fade->alpha += deltaTime / 2.0f;
-				if (engine.volume > 0.0f)
+				if (engine.volume > 0.0f && Audio::GetMasterVolume() != 0)
 				{
 					engine.volume -= deltaTime * engine.volFadeSpeed;
-					Audio::SetMasterVolume(engine.volume);
+					Audio::SetMasterVolume(engine.volume * engine.selectVolume);
 				}
 			}
 			else
@@ -573,7 +575,7 @@ void MainGameScene::UpdatePlayer(Engine& engine, float deltaTime)
 					auto LdamageSource = Lbullet->AddComponent<DamageSource>();
 					LdamageSource->targetNameList = { "enemy","boss","weaponRight","weaponLeft" };
 					shotTimer += 0.1f; //弾の発射間隔を設定(秒)
-					Audio::PlayOneShot(SE::playerShot, 2.0f); //効果音を再生
+					Audio::PlayOneShot(SE::playerShot, Audio::GetMasterVolume()); //効果音を再生
 				}
 			}
 			else
@@ -1022,7 +1024,7 @@ void MainGameScene::CreateStageLogo(Engine& engine)
 	}
 }
 
-//ステージロゴのアニメーション
+//ステージロゴのイージング
 void MainGameScene::LogoEase_CurrentStage(GameObjectPtr& gameObject, float disy)
 {
 	if (!disFlg)
@@ -1034,6 +1036,8 @@ void MainGameScene::LogoEase_CurrentStage(GameObjectPtr& gameObject, float disy)
 	}
 	gameObject->y = fontPosY + disY * Easing::EaseOutExpo(val);
 }
+
+//ロゴのイージング
 void MainGameScene::LogoEase_PreviousStage(GameObjectPtr& gameObject, float disy)
 {
 	if (!disFlg1)
@@ -1045,6 +1049,7 @@ void MainGameScene::LogoEase_PreviousStage(GameObjectPtr& gameObject, float disy
 	}
 	gameObject->y = fontPosY1 + disY1 * Easing::EaseOutExpo(val);
 }
+//ステージロゴのアニメーション
 void MainGameScene::StageLogoAnim(Engine& engine, float deltaTime)
 {
 	if (val < 1.0f)
@@ -1169,7 +1174,7 @@ void MainGameScene::HpAnim(float deltaTime)
 		switch (hpAnimNum)
 		{
 		case 0:
-			Audio::PlayOneShot(SE::bossShot, 1.0f);
+			Audio::PlayOneShot(SE::bossShot, Audio::GetMasterVolume());
 			hpBar->x = x + amount;
 			hpBar->y = y - amount;
 			hpAnimNum = 1;
@@ -1201,60 +1206,59 @@ void MainGameScene::HpAnim(float deltaTime)
 //ボスのBGM
 void MainGameScene::BossBgm(Engine& engine)
 {
-	Audio::PlayOneShot(SE::warning, 20.0f);
+	Audio::PlayOneShot(SE::warning, Audio::GetMasterVolume());
 	if (engine.stageCnt == 1)
 	{
-		Audio::Play(AudioPlayer::bgm, BGM::Boss, 2.0f, true);
+		Audio::Play(AudioPlayer::bgm, BGM::Boss, Audio::GetMasterVolume(), true);
 	}
 	else if (engine.stageCnt == 2)
 	{
-		Audio::Play(AudioPlayer::bgm, BGM::Boss2, 2.0f, true);
+		Audio::Play(AudioPlayer::bgm, BGM::Boss2, Audio::GetMasterVolume(), true);
 	}
 	else if (engine.stageCnt == 3)
 	{
-		Audio::Play(AudioPlayer::bgm, BGM::Boss3, 2.0f, true);
+		Audio::Play(AudioPlayer::bgm, BGM::Boss3, Audio::GetMasterVolume(), true);
 	}
 	else if (engine.stageCnt == 4)
 	{
-		Audio::Play(AudioPlayer::bgm, BGM::Boss4, 2.0f, true);
+		Audio::Play(AudioPlayer::bgm, BGM::Boss4, Audio::GetMasterVolume(), true);
 	}
 	else if (engine.stageCnt == 5)
 	{
-		Audio::Play(AudioPlayer::bgm, BGM::Boss5, 2.0f, true);
+		Audio::Play(AudioPlayer::bgm, BGM::Boss5, Audio::GetMasterVolume(), true);
 	}
 	else if (engine.stageCnt == 6)
 	{
-		Audio::Play(AudioPlayer::bgm, BGM::Boss6, 2.0f, true);
+		Audio::Play(AudioPlayer::bgm, BGM::Boss6, Audio::GetMasterVolume(), true);
 	}
 
 }
 //ステージのBGM
 void MainGameScene::StageBgm(Engine& engine)
 {
-	Audio::SetMasterVolume(engine.volume);
 	if (engine.stageCnt == 1)
 	{
-		Audio::Play(AudioPlayer::bgm, BGM::stage01, 2.0f, true);
+		Audio::Play(AudioPlayer::bgm, BGM::stage01, Audio::GetMasterVolume(), true);
 	}
 	else if (engine.stageCnt == 2)
 	{
-		Audio::Play(AudioPlayer::bgm, BGM::stage02, 2.0f, true);
+		Audio::Play(AudioPlayer::bgm, BGM::stage02, Audio::GetMasterVolume(), true);
 	}
 	else if (engine.stageCnt == 3)
 	{
-		Audio::Play(AudioPlayer::bgm, BGM::stage03, 2.0f, true);
+		Audio::Play(AudioPlayer::bgm, BGM::stage03, Audio::GetMasterVolume(), true);
 	}
 	else if (engine.stageCnt == 4)
 	{
-		Audio::Play(AudioPlayer::bgm, BGM::stage04, 2.0f, true);
+		Audio::Play(AudioPlayer::bgm, BGM::stage04, Audio::GetMasterVolume(), true);
 	}
 	else if (engine.stageCnt == 5)
 	{
-		Audio::Play(AudioPlayer::bgm, BGM::stage05, 2.0f, true);
+		Audio::Play(AudioPlayer::bgm, BGM::stage05, Audio::GetMasterVolume(), true);
 	}
 	else if (engine.stageCnt == 6)
 	{
-		Audio::Play(AudioPlayer::bgm, BGM::stage06, 2.0f, true);
+		Audio::Play(AudioPlayer::bgm, BGM::stage06, Audio::GetMasterVolume(), true);
 	}
 }
 //操作説明
@@ -1286,8 +1290,7 @@ void MainGameScene::Operation(Engine& engine)
 	down = engine.CreateUI<GameObject>(operation_Down, "Operation", 250.0f);
 	down->AddSprite({ 0, 0, 1, 1 });
 
-	const size_t operation_Up = engine.AddUILayer("Res/Images/Operation/W.tga", GL_LINEAR, 10);
-	//const size_t operation_Up = engine.AddUILayer(strup.c_str(), GL_LINEAR, 10);
+	const size_t operation_Up = engine.AddUILayer(strup.c_str(), GL_LINEAR, 10);
 	up = engine.CreateUI<GameObject>(operation_Up, "Operation", 250.0f);
 	up->AddSprite({ 0, 0, 1, 1 });
 
@@ -1360,26 +1363,32 @@ void MainGameScene::Pause(Engine& engine)
 //Imguiの表示
 void MainGameScene::Imgui(Engine& engine)
 {
-	ImGui::Begin("Fade");
-	if (ImGui::CollapsingHeader("fade"))
+	if (engine.j["ImguiSetFlg"]["MainGameScene"])
 	{
-		ImGui::Checkbox("fadeFlg", &engine.fadeFlg);
+		ImGui::Begin("Fade");
+		if (ImGui::CollapsingHeader("fade"))
+		{
+			ImGui::Checkbox("fadeFlg", &engine.fadeFlg);
+		}
+		if (ImGui::CollapsingHeader("config"))
+		{
+			ImGui::Text(upup.c_str());
+			ImGui::Text(downdown.c_str());
+			ImGui::Text(rightright.c_str());
+			ImGui::Text(leftleft.c_str());
+			ImGui::Text(shotshot.c_str());
+			ImGui::InputInt("up", &intup);
+		}
+		if (ImGui::CollapsingHeader("volume"))
+		{
+			ImGui::InputFloat("selectVolume", &engine.selectVolume);
+			ImGui::InputFloat("standardVolume", &engine.volume);
+			ImGui::DragFloat("getVolume", &getVolume);
+		}
+		if (ImGui::CollapsingHeader("playerCollision"))
+		{
+			ImGui::Checkbox("Collision = Checkbox + C_key + O_key", &playerCollision);
+		}
+		ImGui::End();
 	}
-	if (ImGui::CollapsingHeader("Config"))
-	{
-		ImGui::Text(upup.c_str());
-		ImGui::Text(downdown.c_str());
-		ImGui::Text(rightright.c_str());
-		ImGui::Text(leftleft.c_str());
-		ImGui::Text(shotshot.c_str());
-		ImGui::InputInt("up", &intup);
-	}
-	if (ImGui::CollapsingHeader("volume"))
-	{
-		ImGui::InputInt("selectVolume", &engine.selectVolume);
-		ImGui::InputFloat("standardVolume", &engine.volume);
-		ImGui::DragFloat("getVolume", &getVolume);
-	}
-
-	ImGui::End();
 }
