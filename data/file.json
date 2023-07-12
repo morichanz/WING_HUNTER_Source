@@ -1,6 +1,6 @@
 {
    "Audio": {
-      "selectVolume": 1.0,
+      "selectVolume": 10.0,
       "standardVolume": 0.05
    },
    "Boss": {
@@ -11,10 +11,10 @@
       "weaponHp": 250
    },
    "ImguiSetFlg": {
-      "ConfigScene": true,
-      "Engine": true,
-      "MainGameScene": true,
-      "TitleScene": true
+      "ConfigScene": false,
+      "Engine": false,
+      "MainGameScene": false,
+      "TitleScene": false
    },
    "Key": {
       "down": 83,

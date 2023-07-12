@@ -32,6 +32,8 @@ public:
 	void VolumeNumImage(Engine& engine, const size_t textLayer);
 	void VolumeArrowImage(Engine& engine, float deltaTime);
 	bool Array_Is_Unique(const int* array, size_t size);
+	void KeyMoveImage(Engine& engine);
+
 
 	GameObjectPtr fade;
 	GameObjectPtr player;
@@ -47,7 +49,7 @@ public:
 	GameObjectPtr upImage,downImage,rightImage,leftImage,shotImage,resetImage;
 
 	bool imageSetFlg = false;
-
+	bool keyMoveFlg = false; //一回だけ操作説明画像を描画する
 	bool enterFlg = false;  //PressEnterのフェード管理
 	bool fadeFlg = false;	//フェード開始フラグ
 	bool titleAnim = false; //フェードインが終わってからタイトルのアニメーションを開始する
@@ -76,6 +78,11 @@ public:
 
 	bool resetAnimFlg = false;
 
+	//操作説明でキーを押しているかの判定
+	bool pushFlg_up = false; //操作説明でキーを押しているかの判定
+	bool pushFlg_down = false;
+	bool pushFlg_enter = false;
+
 	//キー設定画像
 	int keyup = 0;
 	int keydown = 0;
@@ -83,6 +90,10 @@ public:
 	int keyleft = 0;
 	int keyshot = 0;
 	int keyMemory = 0;
+
+	GameObjectPtr operation_UpImage;
+	GameObjectPtr operation_DownImage;
+	GameObjectPtr operation_EnterImage;
 
 	//音量設定
 	size_t SetTextLayer;

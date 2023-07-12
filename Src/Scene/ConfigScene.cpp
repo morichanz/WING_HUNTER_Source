@@ -81,6 +81,7 @@ bool ConfigScene::Initialize(Engine& engine)
 
 	ConfigText(engine, textLayer);
 	VolumeNumImage(engine, textLayer);
+	KeyMoveImage(engine);
 
 	//ゲームの開始方法を示すテキスト画像
 	enterNewKey = engine.CreateUI<GameObject>(enterNewKeyLayer, "enterNewKey_logo", 900.0f + selectBox_x, 160.0f);
@@ -128,11 +129,11 @@ bool ConfigScene::Initialize(Engine& engine)
 	selectTimer = defaultTimer;
 
 	//キーリストにそれぞれのキーを割り当てる
-	keylist[0] = engine.j["Key"]["up"];
-	keylist[1] = engine.j["Key"]["down"];
-	keylist[2] = engine.j["Key"]["right"];
-	keylist[3] = engine.j["Key"]["left"];
-	keylist[4] = engine.j["Key"]["shot"];
+	keylist[UP] = engine.j["Key"]["up"];
+	keylist[DOWN] = engine.j["Key"]["down"];
+	keylist[RIGHT] = engine.j["Key"]["right"];
+	keylist[LEFT] = engine.j["Key"]["left"];
+	keylist[SHOT] = engine.j["Key"]["shot"];
 
 	ConfigKeyImage(engine);
 
@@ -156,6 +157,7 @@ void ConfigScene::Update(Engine& engine, float deltaTime)
 	BackToTitle(engine, deltaTime);
 	ResetAnimImage(engine, deltaTime);
 	VolumeArrowImage(engine, deltaTime);
+	KeyMoveImage(engine);
 }
 
 //GetAnyKeyDownで押されたキーは何なのかを番号で返す
@@ -198,11 +200,11 @@ void ConfigScene::Imgui(Engine& engine)
 		}
 		if (ImGui::CollapsingHeader("keylist"))
 		{
-			ImGui::DragInt("keybindList0 up", &keylist[0]);
-			ImGui::DragInt("keybindList1 down", &keylist[1]);
-			ImGui::DragInt("keybindList2 right", &keylist[2]);
-			ImGui::DragInt("keybindList3 left", &keylist[3]);
-			ImGui::DragInt("keybindList4 shot", &keylist[4]);
+			ImGui::DragInt("keybindList0 up", &keylist[UP]);
+			ImGui::DragInt("keybindList1 down", &keylist[DOWN]);
+			ImGui::DragInt("keybindList2 right", &keylist[RIGHT]);
+			ImGui::DragInt("keybindList3 left", &keylist[LEFT]);
+			ImGui::DragInt("keybindList4 shot", &keylist[SHOT]);
 			ImGui::Text("text", static_cast<char>(castKeyNum));
 		}
 		if (ImGui::CollapsingHeader("SetVolume"))
@@ -246,6 +248,7 @@ void ConfigScene::Select(Engine& engine)
 //キーの変更を設定
 void ConfigScene::KeySetting(Engine& engine, float deltaTime)
 {
+	//エンターキーを押して、キー編集モード(keySet)になっていないとき
 	if (engine.GetKey(GLFW_KEY_ENTER) && selectTimer <= 0.0f && select < TITLEBACK && !keySet)
 	{
 		selectTimer = defaultTimer;
@@ -260,6 +263,7 @@ void ConfigScene::KeySetting(Engine& engine, float deltaTime)
 		}
 	}
 
+	//キー編集モード(keySet)になっていて、何かしらキーを押したとき
 	if (keySet && !engine.GetKey(GLFW_KEY_ENTER) && GetAnyKeyDown(engine) && select != VOLUME)
 	{
 		if (!engine.GetKey(GLFW_KEY_UP) && !engine.GetKey(GLFW_KEY_DOWN))
@@ -270,11 +274,11 @@ void ConfigScene::KeySetting(Engine& engine, float deltaTime)
 				//キーを入れ替える
 				for (int i = 0; i < 5; i++)
 				{
-					if (keyMemory == 32 && GetKeyCoad(engine) == keylist[i])
+					if (keyMemory == GLFW_KEY_SPACE && GetKeyCoad(engine) == keylist[i])
 					{
 						return;
 					}
-					else if (keyMemory != 32 && GetKeyCoad(engine) == keylist[i])
+					else if (keyMemory != GLFW_KEY_SPACE && GetKeyCoad(engine) == keylist[i])
 					{
 						keylist[i] = keyMemory;
 						engine.j["Key"][keyName[i]] = keylist[i];
@@ -283,6 +287,7 @@ void ConfigScene::KeySetting(Engine& engine, float deltaTime)
 
 				if (isalpha(GetKeyCoad(engine)))
 				{
+					//キーが押されたら、Jsonにキー番号を保存し、ゲームに反映させる
 					if (select == UP)
 					{
 						engine.j["Key"]["up"] = GetKeyCoad(engine);
@@ -336,11 +341,11 @@ void ConfigScene::KeySetting(Engine& engine, float deltaTime)
 		engine.j["Key"]["left"] = GLFW_KEY_A;
 		engine.j["Key"]["shot"] = GLFW_KEY_SPACE;
 
-		keylist[0] = engine.j["Key"]["up"];
-		keylist[1] = engine.j["Key"]["down"];
-		keylist[2] = engine.j["Key"]["right"];
-		keylist[3] = engine.j["Key"]["left"];
-		keylist[4] = engine.j["Key"]["shot"];
+		keylist[UP] = engine.j["Key"]["up"];
+		keylist[DOWN] = engine.j["Key"]["down"];
+		keylist[RIGHT] = engine.j["Key"]["right"];
+		keylist[LEFT] = engine.j["Key"]["left"];
+		keylist[SHOT] = engine.j["Key"]["shot"];
 		ConfigKeyImage_Reset(engine);
 	}
 }
@@ -432,6 +437,7 @@ void ConfigScene::ConfigText(Engine& engine, const size_t textLayer)
 	const float fontSizeX = 16.0f;
 	const float fontposY = 520.0f;
 	const float x = 640.0f;
+	const float conX = 50.0f;
 
 	const char strup[] = "up";
 	const float upX = x - static_cast<float>(std::size(strup) - 1.0f) * fontSizeX;
@@ -480,6 +486,27 @@ void ConfigScene::ConfigText(Engine& engine, const size_t textLayer)
 	auto uititleBack = engine.CreateUI<GameObject>(textLayer, "titleBack", titleBackX, fontposY - (selectBox_y * 7));
 	auto texttitleBack = uititleBack->AddComponent<Text>();
 	texttitleBack->SetText(strtitleBack, 2.0f);
+
+
+	//ここから下は操作説明の画像
+	const char configUp[] = "up";
+	const float configUpX = conX - static_cast<float>(std::size(configUp) - 1.0f);
+	auto uiConfigUp = engine.CreateUI<GameObject>(textLayer, "configUp", configUpX, 400);
+	auto textConfigUp = uiConfigUp->AddComponent<Text>();
+	textConfigUp->SetText(configUp, 2.0f);
+
+	const char configDown[] = "down";
+	const float configDownX = conX - static_cast<float>(std::size(configDown) - 1.0f);
+	auto uiConfigDown = engine.CreateUI<GameObject>(textLayer, "configDown", configDownX, 300);
+	auto textConfigDown = uiConfigDown->AddComponent<Text>();
+	textConfigDown->SetText(configDown, 2.0f);
+
+	const char configEnter[] = "decide";
+	const float configEnterX = conX - static_cast<float>(std::size(configEnter) - 1.0f);
+	auto uiConfigEnter = engine.CreateUI<GameObject>(textLayer, "configEnter", configEnterX, 200);
+	auto textConfigEnter = uiConfigEnter->AddComponent<Text>();
+	textConfigEnter->SetText(configEnter, 2.0f);
+
 }
 
 //キー設定の画像
@@ -557,7 +584,7 @@ void ConfigScene::ConfigKeyImage(Engine& engine)
 	if (shotImage != nullptr)
 	{
 		shotImage->ClearSprite();
-		if (keyshot == 32)
+		if (keyshot == GLFW_KEY_SPACE)
 		{
 			const size_t operation_Shot = engine.AddUILayer("Res/Images/Operation/Space.tga", GL_LINEAR, 10);
 			shotImage = engine.CreateUI<GameObject>(operation_Shot, "Operation", 900.0f, 550.0f - (selectBox_y * 4.0f));
@@ -572,7 +599,7 @@ void ConfigScene::ConfigKeyImage(Engine& engine)
 	}
 	else
 	{
-		if (keyshot == 32)
+		if (keyshot == GLFW_KEY_SPACE)
 		{
 			const size_t operation_Shot = engine.AddUILayer("Res/Images/Operation/Space.tga", GL_LINEAR, 10);
 			shotImage = engine.CreateUI<GameObject>(operation_Shot, "Operation", 900.0f, 550.0f - (selectBox_y * 4.0f));
@@ -586,11 +613,11 @@ void ConfigScene::ConfigKeyImage(Engine& engine)
 		}
 	}
 
-	if(keylist[0] == 0)upImage->ClearSprite();
-	if(keylist[1] == 0)downImage->ClearSprite();
-	if(keylist[2] == 0)rightImage->ClearSprite();
-	if(keylist[3] == 0)leftImage->ClearSprite();
-	if(keylist[4] == 0)shotImage->ClearSprite();
+	if(keylist[UP] == 0)upImage->ClearSprite();
+	if(keylist[DOWN] == 0)downImage->ClearSprite();
+	if(keylist[RIGHT] == 0)rightImage->ClearSprite();
+	if(keylist[LEFT] == 0)leftImage->ClearSprite();
+	if(keylist[SHOT] == 0)shotImage->ClearSprite();
 }
 
 //画像の初期化(W,A,S,D,Space)
@@ -682,4 +709,60 @@ bool ConfigScene::Array_Is_Unique(const int* array, size_t size)
 		}
 	}
 	return true;
+}
+
+//コンフィグの操作説明画像
+void ConfigScene::KeyMoveImage(Engine& engine)
+{
+	const float x = 300.0f;
+	if (!keyMoveFlg)
+	{
+		const size_t operation_Up = engine.AddUILayer("Res/Images/Operation/UP.tga", GL_LINEAR, 10);
+		operation_UpImage = engine.CreateUI<GameObject>(operation_Up, "Operation", x, 430.0f);
+		operation_UpImage->AddSprite({ 0, 0, 1, 1 });
+
+		const size_t operation_Down = engine.AddUILayer("Res/Images/Operation/DOWN.tga", GL_LINEAR, 10);
+		operation_DownImage = engine.CreateUI<GameObject>(operation_Down, "Operation", x, 330.0f);
+		operation_DownImage->AddSprite({ 0, 0, 1, 1 });
+		
+		const size_t operation_Enter = engine.AddUILayer("Res/Images/Operation/Enter.tga", GL_LINEAR, 10);
+		operation_EnterImage = engine.CreateUI<GameObject>(operation_Enter, "Operation", x, 230.0f);
+		operation_EnterImage->AddSprite({ 0, 0, 1, 1 });
+		keyMoveFlg = true;
+	}
+
+	const bool upKey = engine.GetKey(GLFW_KEY_UP);
+	const bool downKey = engine.GetKey(GLFW_KEY_DOWN);
+	const bool enterKey = engine.GetKey(GLFW_KEY_ENTER);
+
+	if (upKey)
+	{
+		operation_UpImage->y = 425.0f;
+		pushFlg_up = true;
+	}
+	else if(!upKey && pushFlg_up)
+	{
+		operation_UpImage->y = 430.0f;
+		pushFlg_up = false;
+	}
+	if (downKey)
+	{
+		operation_DownImage->y = 325.0f;
+		pushFlg_down = true;
+	}
+	else if(!downKey && pushFlg_down)
+	{
+		operation_DownImage->y = 330.0f;
+		pushFlg_down = false;
+	}
+	if (enterKey)
+	{
+		operation_EnterImage->y = 225.0f;
+		pushFlg_enter = true;
+	}
+	else if (!enterKey && pushFlg_enter)
+	{
+		operation_EnterImage->y = 230.0f;
+		pushFlg_enter = false;
+	}
 }
