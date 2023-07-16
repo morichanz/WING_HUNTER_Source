@@ -81,6 +81,11 @@
 　HPゲージもただ減らすだけでなく、ダメージを受けたことがわかるように「ブルッ」と振動を加えて
 　ダメージを受けたことを認知しやすい工夫をしています。
 
+ ・FindGameObjectWithTag、FindGameObjectsWithTagの作成
+　Unityで使われている上記２つの関数を実装しました。gameObjectListには、nameが登録されている
+　ので、同じnameのgameObjectを見つけたら、shared_from_this()を使用して自信を返してあげることで
+　実現しています。
+
 [ファイル構成]
  WINGHUNTER.zip：ゲーム本体
  WINGHUNTER_Source.zip：ゲームのソースコード

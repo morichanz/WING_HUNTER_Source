@@ -19,8 +19,8 @@ void SetStatus(json j, Engine& engine);
 const char* data[]
 {
 	"Res/3Dobj/Model/Large_Enemy/LargeEnemy.obj",	//0.大型機
-	"Res/3Dobj/enemy_s_01.obj",						//1.小型機
-	"Res/3Dobj/Model/Boss/Boss1/Boss1.obj",			//2	
+	"Res/3Dobj/Model/SmollEnemy/enemy_s_01.obj",	//1.小型機
+	"Res/3Dobj/Model/Boss/Boss1/Boss1.obj",			//2.※使わない	
 	"Res/3Dobj/Model/Middle_Enemy/MiddleEnemy.obj", //3.中型機
 	"Res/3Dobj/Model/Boss/Boss1/Boss1.obj",			//4.ボス１
 	"Res/3Dobj/Model/Boss/Boss2/Boss2.obj",			//5.ボス2
@@ -110,6 +110,7 @@ void LoadScene::Update(Engine& engine, float deltaTime)
 			//deltaTimeが一定以下なら針の状態を更新する
 			if (deltaTime < 0.2f)
 			{
+				//現在の針の位置が１つ前の針の位置より大きかったら、針の回転をマイナスする。
 				if (hour_hand_Back < hour_hand->rotate)hour_hand->rotate -= 5.0f * deltaTime;
 				if (long_hand_Back_back < long_hand->rotate && long_hand->rotate > -360.0f)long_hand->rotate -= 30.0f * deltaTime;
 
