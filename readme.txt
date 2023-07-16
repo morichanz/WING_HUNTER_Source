@@ -206,6 +206,7 @@ WINGHUNTER
 　W/A/S/D ---------- 自機の移動
 　Enter ------------ 決定
 　Space ------------ 弾を発射（押しっぱなしで自動連射）
+  ※上記のキー設定はConfigで変更可能です。
 
  Config:
   音量、キーバインドを設定できます。
@@ -224,3 +225,5 @@ WINGHUNTER
 
 [参考資料]
  イージング：https://easings.net/j
+ C++のjsonライブラリ決定版 nlohmann-json：https://qiita.com/yohm/items/0f389ba5c5de4e2df9cf
+ nlohmann：https://github.com/nlohmann/json
